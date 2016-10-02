@@ -10,6 +10,21 @@ const plugins = <any>gulpLoadPlugins();
 
 export = () => {
 
+gulp.task('check-clean', function (cb: any) {
+  plugins.git.exec({args: 'describe --dirty'}, function(err: any, stdout:string) {
+    let is_dirty: boolean = false;
+    if (err) {
+      is_dirty = true;
+    }
+    if (stdout.search('dirty') != -1) {
+      is_dirty = true;
+    }
+    if (is_dirty) {
+      cb("Repository has un-commited changes. Aborting.");
+    }
+  })
+});
+
 gulp.task('changelog', function () {
   return gulp.src(Config.PROJECT_ROOT + '/CHANGELOG.md', {
     buffer: false
@@ -66,6 +81,7 @@ gulp.task('create-new-tag', function (cb: any) {
 
 gulp.task('release', function (callback: any) {
   runSequence(
+    'check-clean',
     'bump-version',
     'changelog',
     'commit-changes',
