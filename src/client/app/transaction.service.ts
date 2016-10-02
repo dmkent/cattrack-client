@@ -7,7 +7,6 @@ import { Transaction, TransactionPage } from './transaction';
 import { Category, CategorySummary } from './category';
 import { Account } from './account';
 import { Period } from './period';
-import { Bill, RecurringPayment } from './bill';
 
 
 function tpFromResponse(response: Response): TransactionPage {
@@ -34,8 +33,6 @@ export class TransactionService {
     private catUrl = `${this.api_url}/categories/`;
     private accountUrl = `${this.api_url}/accounts/`;
     private periodUrl = `${this.api_url}/periods/`;
-    private billUrl = `${this.api_url}/bills/`;
-    private paymentUrl = `${this.api_url}/payments/`;
 
     private authToken: string = null;
     private authExpires: Date = null;
@@ -286,44 +283,6 @@ export class TransactionService {
                    .toPromise()
                    .then(res => res.json() as Period[])
                    .catch(this.handleError);
-    }
-
-    getBills(): Promise<Bill[]> {
-        this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
-        return this.http.get(this.billUrl, {search: args})
-                   .toPromise()
-                   .then(res => res.json() as Bill[])
-                   .catch(this.handleError);
-    }
-
-    getRecurringPayments(): Promise<RecurringPayment[]> {
-        this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
-        return this.http.get(this.paymentUrl, {search: args})
-                   .toPromise()
-                   .then(res => res.json() as RecurringPayment[])
-                   .catch(this.handleError);
-    }
-
-    getRecurringPayment(id: number): Promise<RecurringPayment> {
-        this.refreshLogin();
-        return this.http.get(this.paymentUrl + id)
-                   .toPromise()
-                   .then(response => response.json())
-                   .catch(this.handleError);
-    }
-
-    updateRecurringPayment(payment: RecurringPayment): Promise<RecurringPayment> {
-        this.refreshLogin();
-        return this.http
-                .put(this.paymentUrl + payment.id,
-                     JSON.stringify(payment), {headers: this.headers})
-                .toPromise()
-                .then(() => payment)
-                .catch(this.handleError);
     }
 
     getUploadOptions(account: Account): Object {
