@@ -4,7 +4,7 @@ describe('Accounts', () => {
     browser.get('/accounts');
   });
 
-  it('should have a list of accounts', () => {
+  /*it('should have a list of accounts', () => {
     expect(element(by.css('account-list ul')).getText())
       .toEqual('Statement Account\nSavings\nCredit Card');
   });
@@ -15,6 +15,6 @@ describe('Accounts', () => {
     expect(element(by.css('account-list account-detail')).isPresent());
     expect(element(by.css('account-list account-detail div h2')).getText())
       .toEqual('Statement Account');
-  });
+  });*/
 
 });
