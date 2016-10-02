@@ -16,13 +16,13 @@ gulp.task('check-clean', function (cb: any) {
     if (err) {
       is_dirty = true;
     }
-    if (stdout.search('dirty') != -1) {
+    if (stdout.search('dirty') !== -1) {
       is_dirty = true;
     }
     if (is_dirty) {
-      cb("Repository has un-commited changes. Aborting.");
+      cb('Repository has un-commited changes. Aborting.');
     }
-  })
+  });
 });
 
 gulp.task('changelog', function () {
@@ -37,7 +37,7 @@ gulp.task('changelog', function () {
 
 gulp.task('github-release', function(done: any) {
   conventionalGithubReleaser.conventionalGithubReleaser({
-    type: "oauth",
+    type: 'oauth',
     token: '0126af95c0e2d9b0a7c78738c4c00a860b04acc8' // change this to your own GitHub token or use an environment variable
   }, {
     preset: 'angular' // Or to any other commit message convention you use.
@@ -49,7 +49,7 @@ gulp.task('bump-version', function () {
 // use minimist (https://www.npmjs.com/package/minimist) to determine with a
 // command argument whether you are doing a 'major', 'minor' or a 'patch' change.
   return gulp.src(['./bower.json', './package.json'])
-    .pipe(plugins.bump({type: "patch"}).on('error', plugins.util.log))
+    .pipe(plugins.bump({type: 'patch'}).on('error', plugins.util.log))
     .pipe(gulp.dest('./'));
 });
 
@@ -98,4 +98,4 @@ gulp.task('release', function (callback: any) {
     });
 });
 
-}
+};

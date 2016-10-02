@@ -42,7 +42,6 @@ export class TransactionService {
     private headers = new Headers({
         'Content-Type': 'application/json',
     });
-    private jwtToken: string;
 
     constructor(private http: Http) {
         this._updateAuth();
@@ -101,12 +100,12 @@ export class TransactionService {
             this._clearAuth();
             return new Promise((resolve, reject) => reject('Expired'));
         }
-        
+
         // 2. check if more than 5 mins until expire - don't refresh
         if ((this.authExpires.getTime() - now.getTime()) > 300000 ) {
             return new Promise((resolve, reject) => resolve('Already valid'));
         }
-        
+
         // 3. not expired, but near expiry - refresh
         let headers = new Headers({
             'Content-Type': 'application/json',
@@ -114,7 +113,7 @@ export class TransactionService {
         let args = new URLSearchParams();
         args.set('format', 'json');
         return this.http.post(this.refreshLoginUrl,
-                              JSON.stringify({token: this.authToken}), 
+                              JSON.stringify({token: this.authToken}),
                               {headers: headers, search: args})
                    .toPromise()
                    .then(res => {
@@ -134,7 +133,7 @@ export class TransactionService {
                     account: Account = null,
                     from_date: Date = null,
                     to_date: Date = null): Promise<TransactionPage> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('page', '' + page);
         args.set('page_size', '' + page_size);
@@ -162,7 +161,7 @@ export class TransactionService {
                            account: Account = null,
                            from_date: Date = null,
                            to_date: Date = null): Promise<CategorySummary[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('format', 'json');
 
@@ -186,7 +185,7 @@ export class TransactionService {
 
 
     getTransaction(id: number): Promise<Transaction> {
-        this.refreshLogin()
+        this.refreshLogin();
         return this.http.get(this.transUrl + id + '/', {headers: this.headers})
                    .toPromise()
                    .then(response => response.json())
@@ -194,7 +193,7 @@ export class TransactionService {
     }
 
     updateTransaction(transaction: Transaction, splits: any = null): Promise<Transaction> {
-        this.refreshLogin()
+        this.refreshLogin();
         const url = `${this.transUrl}${transaction.id}/`;
         const splitsUrl = url + 'split/';
 
@@ -229,7 +228,7 @@ export class TransactionService {
     }
 
     categorySuggestions(transaction: Transaction): Promise<Category[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         const url = `${this.transUrl}${transaction.id}/suggest`;
         return this.http.get(url, {headers: this.headers}).toPromise()
                .then(res => res.json() as Category[])
@@ -237,7 +236,7 @@ export class TransactionService {
     }
 
     create(descr: string): Promise<Transaction> {
-        this.refreshLogin()
+        this.refreshLogin();
         return this.http
             .post(this.transUrl, JSON.stringify({
                 description: descr,
@@ -251,7 +250,7 @@ export class TransactionService {
     }
 
     delete(id: number): Promise<void> {
-        this.refreshLogin()
+        this.refreshLogin();
         let url = `${this.transUrl}${id}/`;
         return this.http.delete(url, {headers: this.headers})
             .toPromise()
@@ -260,7 +259,7 @@ export class TransactionService {
     }
 
     getCategories(): Promise<Category[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('format', 'json');
         return this.http.get(this.catUrl, {search: args, headers: this.headers})
@@ -270,7 +269,7 @@ export class TransactionService {
     }
 
     getAccounts(): Promise<Account[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('format', 'json');
         return this.http.get(this.accountUrl, {search: args, headers: this.headers})
@@ -280,7 +279,7 @@ export class TransactionService {
     }
 
     getPeriods(): Promise<Period[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('format', 'json');
         return this.http.get(this.periodUrl, {search: args, headers: this.headers})
@@ -290,7 +289,7 @@ export class TransactionService {
     }
 
     getBills(): Promise<Bill[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('format', 'json');
         return this.http.get(this.billUrl, {search: args})
@@ -300,7 +299,7 @@ export class TransactionService {
     }
 
     getRecurringPayments(): Promise<RecurringPayment[]> {
-        this.refreshLogin()
+        this.refreshLogin();
         let args = new URLSearchParams();
         args.set('format', 'json');
         return this.http.get(this.paymentUrl, {search: args})
@@ -310,7 +309,7 @@ export class TransactionService {
     }
 
     getRecurringPayment(id: number): Promise<RecurringPayment> {
-        this.refreshLogin()
+        this.refreshLogin();
         return this.http.get(this.paymentUrl + id)
                    .toPromise()
                    .then(response => response.json())
@@ -318,9 +317,9 @@ export class TransactionService {
     }
 
     updateRecurringPayment(payment: RecurringPayment): Promise<RecurringPayment> {
-        this.refreshLogin()
+        this.refreshLogin();
         return this.http
-                .put(this.paymentUrl + payment.id, 
+                .put(this.paymentUrl + payment.id,
                      JSON.stringify(payment), {headers: this.headers})
                 .toPromise()
                 .then(() => payment)
@@ -328,7 +327,7 @@ export class TransactionService {
     }
 
     getUploadOptions(account: Account): Object {
-        this.refreshLogin()
+        this.refreshLogin();
         return {
             url: this.accountUrl +
                  account.id + '/load/',
