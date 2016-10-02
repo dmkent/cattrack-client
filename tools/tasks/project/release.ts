@@ -22,6 +22,7 @@ gulp.task('check-clean', function (cb: any) {
     if (is_dirty) {
       cb('Repository has un-commited changes. Aborting.');
     }
+    cb();
   });
 });
 
