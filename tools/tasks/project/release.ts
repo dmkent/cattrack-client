@@ -4,12 +4,14 @@ import * as conventionalGithubReleaser from 'conventional-github-releaser';
 import * as fs from 'fs';
 import * as gulpLoadPlugins from 'gulp-load-plugins';
 
+import Config from '../../config';
+
 const plugins = <any>gulpLoadPlugins();
 
 export = () => {
 
 gulp.task('changelog', function () {
-  return gulp.src('CHANGELOG.md', {
+  return gulp.src(Config.PROJECT_ROOT + '/CHANGELOG.md', {
     buffer: false
   })
     .pipe(plugins.conventionalChangelog({
@@ -67,9 +69,9 @@ gulp.task('release', function (callback: any) {
     'bump-version',
     'changelog',
     'commit-changes',
-    //'push-changes',
+    'push-changes',
     'create-new-tag',
-    //'github-release',
+    'github-release',
     function (error: any) {
       if (error) {
         console.log(error.message);
