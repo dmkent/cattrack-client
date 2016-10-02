@@ -81,6 +81,9 @@ export class ProjectConfig extends SeedConfig {
       },
       'moment': {
         main: './moment.js'
+      },
+      'bootstrap': {
+        main: './dist/js/bootstrap.min.js'
       }
     });
   }
