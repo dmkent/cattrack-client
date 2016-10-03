@@ -66,7 +66,8 @@ gulp.task('push-changes', function (cb: any) {
 
 gulp.task('create-new-tag', function (cb: any) {
   var version = getPackageJsonVersion();
-  plugins.git.tag(version, 'Created Tag for version: ' + version, function (error: any) {
+  plugins.git.tag(Config.GIT_TAG_PREFIX + version,
+                  'Created Tag for version: ' + version, function (error: any) {
     if (error) {
       return cb(error);
     }

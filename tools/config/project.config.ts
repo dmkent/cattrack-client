@@ -10,6 +10,9 @@ export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
+  /** Prefix to use when tagging releases **/
+  GIT_TAG_PREFIX = 'release-';
+
   constructor() {
     super();
     this.APP_TITLE = 'CatTrack';
