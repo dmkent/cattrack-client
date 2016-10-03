@@ -7,6 +7,7 @@ import { Transaction, TransactionPage } from './transaction';
 import { Category, CategorySummary } from './category';
 import { Account } from './account';
 import { Period } from './period';
+import { Config } from './shared/index';
 
 
 function tpFromResponse(response: Response): TransactionPage {
@@ -26,13 +27,13 @@ function parseJwt (token: string) {
 
 @Injectable()
 export class TransactionService {
-    private api_url = 'http://localhost:8000/api';
-    private loginUrl = 'http://localhost:8000/api-token-auth/';
-    private refreshLoginUrl = 'http://localhost:8000/api-token-refresh/';
-    private transUrl = `${this.api_url}/transactions/`;
-    private catUrl = `${this.api_url}/categories/`;
-    private accountUrl = `${this.api_url}/accounts/`;
-    private periodUrl = `${this.api_url}/periods/`;
+    private api_url = Config.API;
+    private loginUrl = this.api_url + 'api-token-auth/';
+    private refreshLoginUrl = this.api_url + 'api-token-refresh/';
+    private transUrl = `${this.api_url}api/transactions/`;
+    private catUrl = `${this.api_url}api/categories/`;
+    private accountUrl = `${this.api_url}api/accounts/`;
+    private periodUrl = `${this.api_url}api/periods/`;
 
     private authToken: string = null;
     private authExpires: Date = null;
