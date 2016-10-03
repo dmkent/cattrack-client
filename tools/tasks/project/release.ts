@@ -57,7 +57,7 @@ gulp.task('bump-version', function () {
 gulp.task('commit-changes', function () {
   return gulp.src('.')
     .pipe(plugins.git.add())
-    .pipe(plugins.git.commit('[Prerelease] Bumped version number'));
+    .pipe(plugins.git.commit('chore: Bumped version number'));
 });
 
 gulp.task('push-changes', function (cb: any) {
