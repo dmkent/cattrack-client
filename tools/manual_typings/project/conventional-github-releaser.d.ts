@@ -1,9 +1,7 @@
-declare module conventionalGithubReleaser {
+declare module 'conventional-github-releaser' {
   function conventionalGithubReleaser(auth: any, changelogOpts: any,
                                       context: any, gitRawCommitsOpts?: any,
                                       parserOpts?: any, writerOpts?: any, userCb?: any): void;
-}
-
-declare module "conventional-github-releaser" {
+  module conventionalGithubReleaser {}
   export = conventionalGithubReleaser;
 }
