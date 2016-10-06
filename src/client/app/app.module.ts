@@ -20,6 +20,7 @@ import { DashboardComponent } from './dashboard.component';
 import { CategoriserComponent } from './categoriser.component';
 import { AccountComponent } from './accounts.component';
 import { AccountDetailComponent } from './account-detail.component';
+import { AccountCreateComponent } from './account-create.component';
 
 @NgModule({
   imports:      [
@@ -41,6 +42,7 @@ import { AccountDetailComponent } from './account-detail.component';
     CategoriserComponent,
     AccountComponent,
     AccountDetailComponent,
+    AccountCreateComponent,
     NgFileSelectDirective
   ],
   providers: [

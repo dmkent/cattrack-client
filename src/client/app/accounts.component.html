@@ -1,10 +1,19 @@
-<h3>Accounts</h3>
-<ul>
-  <li *ngFor="let acct of accounts" (click)="selectAccount(acct)">
-    {{acct.name}}
-  </li>
-</ul>
+<h3>Accounts
+<button type="button" class="btn btn-default btn-sm" aria-label="Add" (click)="accountCreate.show()">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </button>
+</h3>
+<table class="table">
+  <tr *ngFor="let acct of accounts" (click)="selectAccount(acct)">
+    <td>{{acct.name}}</td>
+    <td><button class="btn btn-default btn-sm"
+      (click)="delete(acct); clearAccount(); $event.stopPropagation()">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button></td>
+  </tr>
+</table>
 <div>
 <account-detail [account]="selectedAccount"
                 (onReset)="clearAccount()"></account-detail>
 </div>
+<account-create #accountCreate (onSave)="getAccounts()"></account-create>

@@ -100,7 +100,7 @@ export class TransactionComponent implements OnInit {
       this.router.navigate(['/detail', this.selectedTransaction.id]);
     }
 
-    add(description: string): void {
+    /*add(description: string): void {
       description = description.trim();
       if (!description) { return; }
       this.transactionService.create(description)
@@ -108,11 +108,11 @@ export class TransactionComponent implements OnInit {
           this.transactions.push(trans);
           this.selectedTransaction = null;
         });
-    }
+    }*/
 
     delete(transaction: Transaction): void {
       this.transactionService
-           .delete(transaction.id)
+           .deleteTransaction(transaction)
            .then(() => {
              this.transactions = this.transactions.filter(t => t !== transaction);
         if (this.selectedTransaction === transaction) { this.selectedTransaction = null; }

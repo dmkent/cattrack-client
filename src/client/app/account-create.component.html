@@ -1,0 +1,35 @@
+<div bsModal #acctmodal="bs-modal" id="acctmodal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title">Create new account</h3>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-sm-12">
+            <form #acctForm="ngForm">
+              <div class="form-group"
+                  [class.has-error]="name.invalid && name.touched"
+                  [class.has-success]="name.valid">
+                <label for="acct-name" class="form-label">Account name: </label>
+                <input id="acct-name" #name="ngModel" name="acct-name"
+                      required class="form-control"
+                      [(ngModel)]="account.name" placeholder="name"/>
+                <span id="helpBlock" class="help-block">Required. The name of this account.</span>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="hide()">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="save()"
+                [disabled]="!acctForm.valid">Create</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

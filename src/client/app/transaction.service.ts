@@ -126,6 +126,11 @@ export class TransactionService {
                 this.authExpires > new Date());
     }
 
+    /*
+     *
+     * Transaction API
+     *
+     */
     getTransactions(page: number, page_size: number = 10,
                     category: Category = null,
                     account: Account = null,
@@ -233,29 +238,30 @@ export class TransactionService {
                .catch(this.handleError);
     }
 
-    create(descr: string): Promise<Transaction> {
+    createTransaction(trans: Transaction): Promise<Transaction> {
         this.refreshLogin();
         return this.http
-            .post(this.transUrl, JSON.stringify({
-                description: descr,
-                amount: 43,
-                when: '2014-03-02T00:00',
-                account: 1,
-            }), {headers: this.headers})
+            .post(this.transUrl, JSON.stringify(trans),
+                  {headers: this.headers})
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
     }
 
-    delete(id: number): Promise<void> {
+    deleteTransaction(trans: Transaction): Promise<void> {
         this.refreshLogin();
-        let url = `${this.transUrl}${id}/`;
+        let url = `${this.transUrl}${trans.id}/`;
         return this.http.delete(url, {headers: this.headers})
             .toPromise()
             .then(() => null)
             .catch(this.handleError);
     }
 
+    /*
+     *
+     * Category API
+     *
+     */
     getCategories(): Promise<Category[]> {
         this.refreshLogin();
         let args = new URLSearchParams();
@@ -266,6 +272,30 @@ export class TransactionService {
                    .catch(this.handleError);
     }
 
+    createCategory(category: Category): Promise<Category> {
+        this.refreshLogin();
+        return this.http
+            .post(this.catUrl, JSON.stringify(category),
+                  {headers: this.headers})
+            .toPromise()
+            .then(res => res.json() as Category)
+            .catch(this.handleError);
+    }
+
+    deleteCategory(category: Category): Promise<void> {
+        this.refreshLogin();
+        let url = `${this.catUrl}${category.id}/`;
+        return this.http.delete(url, {headers: this.headers})
+            .toPromise()
+            .then(() => null)
+            .catch(this.handleError);
+    }
+
+    /*
+     *
+     * Accounts API
+     *
+     */
     getAccounts(): Promise<Account[]> {
         this.refreshLogin();
         let args = new URLSearchParams();
@@ -276,14 +306,23 @@ export class TransactionService {
                    .catch(this.handleError);
     }
 
-    getPeriods(): Promise<Period[]> {
+    createAccount(account: Account): Promise<Account> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
-        return this.http.get(this.periodUrl, {search: args, headers: this.headers})
-                   .toPromise()
-                   .then(res => res.json() as Period[])
-                   .catch(this.handleError);
+        return this.http
+            .post(this.accountUrl, JSON.stringify(account),
+                  {headers: this.headers})
+            .toPromise()
+            .then(res => res.json() as Account)
+            .catch(this.handleError);
+    }
+
+    deleteAccount(account: Account): Promise<void> {
+        this.refreshLogin();
+        let url = `${this.accountUrl}${account.id}/`;
+        return this.http.delete(url, {headers: this.headers})
+            .toPromise()
+            .then(() => null)
+            .catch(this.handleError);
     }
 
     getUploadOptions(account: Account): Object {
@@ -300,6 +339,41 @@ export class TransactionService {
             autoUpload: false,
         };
     }
+
+    /*
+     *
+     * Periods API
+     *
+     */
+    getPeriods(): Promise<Period[]> {
+        this.refreshLogin();
+        let args = new URLSearchParams();
+        args.set('format', 'json');
+        return this.http.get(this.periodUrl, {search: args, headers: this.headers})
+                   .toPromise()
+                   .then(res => res.json() as Period[])
+                   .catch(this.handleError);
+    }
+
+    createPeriod(period: Period): Promise<Period> {
+        this.refreshLogin();
+        return this.http
+            .post(this.periodUrl, JSON.stringify(period),
+                  {headers: this.headers})
+            .toPromise()
+            .then(res => res.json() as Period)
+            .catch(this.handleError);
+    }
+
+    deletePeriod(period: Period): Promise<void> {
+        this.refreshLogin();
+        let url = `${this.periodUrl}${period.id}/`;
+        return this.http.delete(url, {headers: this.headers})
+            .toPromise()
+            .then(() => null)
+            .catch(this.handleError);
+    }
+
 
     private handleError(error: any): Promise<any> {
         console.error('An error occured', error);
