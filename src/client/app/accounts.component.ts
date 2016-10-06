@@ -24,7 +24,7 @@ export class AccountComponent implements OnInit {
     getAccounts(): void {
         this.transactionService.getAccounts().then(accts => this.accounts = accts);
     }
-    
+
     selectAccount(account: Account): void {
         this.selectedAccount = account;
     }

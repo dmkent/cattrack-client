@@ -11,12 +11,12 @@ import { TransactionService } from './transaction.service';
   templateUrl: 'account-create.component.html',
 })
 export class AccountCreateComponent {
-    private account: Account = new Account();
-
     @Output()
     onSave: EventEmitter<any> = new EventEmitter();
 
     @ViewChild('acctmodal') public childModal:ModalDirective;
+
+    private account: Account = new Account();
 
     constructor(private transactionService: TransactionService) {
 

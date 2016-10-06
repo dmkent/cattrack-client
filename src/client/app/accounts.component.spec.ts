@@ -7,11 +7,13 @@ import { async } from '@angular/core/testing';
 import { Route } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { NgFileSelectDirective } from 'ng2-uploader';
 
 import { TransactionService } from './transaction.service';
 import { AccountComponent } from './accounts.component';
 import { AccountDetailComponent } from './account-detail.component';
+import { AccountCreateComponent } from './account-create.component';
 import { MockTransactionService } from './transaction-service.mock';
 
 export function main() {
@@ -26,9 +28,10 @@ export function main() {
 
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterModule, HttpModule,
-                  RouterTestingModule.withRoutes(config)],
+                  RouterTestingModule.withRoutes(config),
+                  ModalModule],
         declarations: [TestComponent, AccountComponent, AccountDetailComponent,
-                       NgFileSelectDirective],
+                       AccountCreateComponent, NgFileSelectDirective],
         providers: [
           {provide: TransactionService, useValue: this.service}
         ]
@@ -54,7 +57,7 @@ export function main() {
             expect(accountsInstance.selectedAccount).toEqual(null);
 
             expect(accountsInstance.transactionService).toEqual(jasmine.any(MockTransactionService));
-            expect(accountsDOMEl.querySelectorAll('ul li').length).toEqual(this.service.ACCOUNTS.length);
+            expect(accountsDOMEl.querySelectorAll('table tr').length).toEqual(this.service.ACCOUNTS.length);
 
           });
 
