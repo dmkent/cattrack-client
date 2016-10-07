@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, URLSearchParams } from '@angular/http';
+import { Router } from '@angular/router';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -44,7 +45,8 @@ export class TransactionService {
         'Content-Type': 'application/json',
     });
 
-    constructor(private http: Http) {
+    constructor(private http: Http,
+                private router: Router) {
         this._updateAuth();
     }
 
@@ -121,12 +123,20 @@ export class TransactionService {
                        let token = res.json().token;
                        this._updateAuth(token);
                    })
-                   .catch(this.handleError);
+                   .catch(res => this.router.navigate(['/login']));
     }
 
     isLoggedIn() {
+        console.log(this.authExpires);
+        console.log(new Date());
         return (this.authToken !== null &&
                 this.authExpires > new Date());
+    }
+
+    defaultGetHeaders() {
+        let args = new URLSearchParams();
+        args.set('format', 'json');
+        return args;
     }
 
     /*
@@ -140,10 +150,9 @@ export class TransactionService {
                     from_date: Date = null,
                     to_date: Date = null): Promise<TransactionPage> {
         this.refreshLogin();
-        let args = new URLSearchParams();
+        let args = this.defaultGetHeaders();
         args.set('page', '' + page);
         args.set('page_size', '' + page_size);
-        args.set('format', 'json');
 
         if (category !== null) {
             args.set('category', '' + category.id);
@@ -168,8 +177,7 @@ export class TransactionService {
                            from_date: Date = null,
                            to_date: Date = null): Promise<CategorySummary[]> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
+        let args = this.defaultGetHeaders();
 
         if (category !== null) {
             args.set('category', '' + category.id);
@@ -192,7 +200,8 @@ export class TransactionService {
 
     getTransaction(id: number): Promise<Transaction> {
         this.refreshLogin();
-        return this.http.get(this.transUrl + id + '/', {headers: this.headers})
+        let args = this.defaultGetHeaders();
+        return this.http.get(this.transUrl + id + '/', {search: args, headers: this.headers})
                    .toPromise()
                    .then(response => response.json())
                    .catch(this.handleError);
@@ -235,8 +244,9 @@ export class TransactionService {
 
     categorySuggestions(transaction: Transaction): Promise<Category[]> {
         this.refreshLogin();
+        let args = this.defaultGetHeaders();
         const url = `${this.transUrl}${transaction.id}/suggest`;
-        return this.http.get(url, {headers: this.headers}).toPromise()
+        return this.http.get(url, {search: args, headers: this.headers}).toPromise()
                .then(res => res.json() as Category[])
                .catch(this.handleError);
     }
@@ -267,8 +277,7 @@ export class TransactionService {
      */
     getCategories(): Promise<Category[]> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
+        let args = this.defaultGetHeaders();
         return this.http.get(this.catUrl, {search: args, headers: this.headers})
                    .toPromise()
                    .then(res => res.json())
@@ -301,8 +310,7 @@ export class TransactionService {
      */
     getAccounts(): Promise<Account[]> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
+        let args = this.defaultGetHeaders();
         return this.http.get(this.accountUrl, {search: args, headers: this.headers})
                    .toPromise()
                    .then(res => res.json())
@@ -330,8 +338,7 @@ export class TransactionService {
 
     getBills(): Promise<Bill[]> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
+        let args = this.defaultGetHeaders();
         return this.http.get(this.billUrl, {search: args})
                    .toPromise()
                    .then(res => res.json() as Bill[])
@@ -340,8 +347,7 @@ export class TransactionService {
 
     getRecurringPayments(): Promise<RecurringPayment[]> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
+        let args = this.defaultGetHeaders();
         return this.http.get(this.paymentUrl, {search: args})
                    .toPromise()
                    .then(res => res.json() as RecurringPayment[])
@@ -350,7 +356,8 @@ export class TransactionService {
 
     getRecurringPayment(id: number): Promise<RecurringPayment> {
         this.refreshLogin();
-        return this.http.get(this.paymentUrl + id)
+        let args = this.defaultGetHeaders();
+        return this.http.get(this.paymentUrl + id, {search: args})
                    .toPromise()
                    .then(response => response.json())
                    .catch(this.handleError);
@@ -388,8 +395,7 @@ export class TransactionService {
      */
     getPeriods(): Promise<Period[]> {
         this.refreshLogin();
-        let args = new URLSearchParams();
-        args.set('format', 'json');
+        let args = this.defaultGetHeaders();
         return this.http.get(this.periodUrl, {search: args, headers: this.headers})
                    .toPromise()
                    .then(res => res.json() as Period[])

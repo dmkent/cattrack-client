@@ -48,6 +48,10 @@ export class CategoriserComponent implements OnInit {
                 this.initSplitCats(true),
             ])
         });
+        this.getCategories();
+    }
+
+    getCategories(): void {
         this.transactionService.getCategories()
               .then(cats => this.categories = cats);
     }
