@@ -1,6 +1,7 @@
 <div bsModal #catmodal="bs-modal" id="categoriser" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <category-create #newcat (onSave)="getCategories()"></category-create>
       <div class="modal-header">
         <button type="button" class="close" aria-label="Close" (click)="hide()">
           <span aria-hidden="true">&times;</span>
@@ -29,6 +30,11 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <button class="btn btn-default btn-sm" (click)="newcat.show()">
+                New category
+              </button>
+            </div>
             <form [formGroup]="catForm" novalidate (ngSubmit)="save()" class="form-horizontal">
               <div formArrayName="splits">
                 <fieldset *ngFor="let split of catForm.controls.splits.controls; let i=index">
@@ -52,7 +58,7 @@
                           <option *ngFor="let cat of categories" value={{cat.id}}>{{cat.name}}</option>
                         </select>
                       </div>
-                      <!--display error message if street is not valid-->
+                      <!--display error message if category is not valid-->
                       <small [class.hidden]="catForm.controls.splits.controls[i].controls.category.valid"
                              class="col-sm-10 col-sm-offset-2 help-block">
                           Category is required

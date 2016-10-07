@@ -22,6 +22,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
 import { TransactionComponent } from './transaction.component';
 import { AccountDetailComponent } from './account-detail.component';
+import { CategoryCreateComponent } from './category-create.component';
 import { CategoriserComponent } from './categoriser.component';
 
 export function main() {
@@ -40,6 +41,7 @@ export function main() {
         declarations: [TestComponent, DashboardComponent,
           TransactionComponent, AppComponent,
           AccountDetailComponent, CategoriserComponent,
+          CategoryCreateComponent,
           NgFileSelectDirective],
         providers: [
           { provide: APP_BASE_HREF, useValue: '/' }

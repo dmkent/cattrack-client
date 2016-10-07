@@ -21,6 +21,7 @@ import { CategoriserComponent } from './categoriser.component';
 import { AccountComponent } from './accounts.component';
 import { AccountDetailComponent } from './account-detail.component';
 import { AccountCreateComponent } from './account-create.component';
+import { CategoryCreateComponent } from './category-create.component';
 
 @NgModule({
   imports:      [
@@ -43,6 +44,7 @@ import { AccountCreateComponent } from './account-create.component';
     AccountComponent,
     AccountDetailComponent,
     AccountCreateComponent,
+    CategoryCreateComponent,
     NgFileSelectDirective
   ],
   providers: [
