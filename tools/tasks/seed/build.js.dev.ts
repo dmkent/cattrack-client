@@ -26,7 +26,7 @@ export = () => {
     join(Config.APP_SRC, '**/*.ts'),
     '!' + join(Config.APP_SRC, '**/*.spec.ts'),
     '!' + join(Config.APP_SRC, '**/*.e2e-spec.ts'),
-    '!' + join(Config.APP_SRC, `**/${Config.BOOTSTRAP_FACTORY_PROD_MODULE}.ts`)
+    '!' + join(Config.TMP_DIR, `**/${Config.NG_FACTORY_FILE}.ts`)
   ];
 
   let projectFiles = gulp.src(src);
@@ -47,7 +47,7 @@ export = () => {
   result = projectFiles
     .pipe(plugins.plumber())
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.typescript(tsProject))
+    .pipe(tsProject())
     .on('error', () => {
       typedBuildCounter = Config.TYPED_COMPILE_INTERVAL;
     });
