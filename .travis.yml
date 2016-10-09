@@ -29,8 +29,8 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CHROME_BIN=chromium-browser; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask install google-chrome; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
-- docker pull dmkent/cattrack
-- docker run -d -p 8000:8000 dmkent/cattrack
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker pull dmkent/cattrack; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then docker run -d -p 8000:8000 dmkent/cattrack; fi
 
 before_script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
@@ -51,9 +51,7 @@ cache:
   directories: node_modules
 
 script:
-- npm run tests.all
-- npm run build.prod
-- npm run gulp build.prod.tar
+  - ./.travis/run.sh
 
 deploy:
   provider: releases
