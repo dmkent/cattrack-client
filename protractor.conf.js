@@ -41,7 +41,14 @@ const config = {
    * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one matching
    * `rootEl`
    */
-  useAllAngular2AppRoots: true
+  useAllAngular2AppRoots: true,
+
+  params: {
+    login: {
+      user: "test",
+      pass: "test1234"
+    }
+  }
 };
 
 if (process.env.TRAVIS) {
