@@ -4,10 +4,13 @@ node_js:
 - 5
 - stable
 
-sudo: false
+sudo: required
 
 addons:
   firefox: "39.0"
+
+services:
+  - docker
 
 os:
 - linux
@@ -26,6 +29,8 @@ before_install:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CHROME_BIN=chromium-browser; fi
 - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew cask install google-chrome; fi
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export DISPLAY=:99.0; fi
+- docker pull dmkent/cattrack
+- docker run -d -p 8000:8000 dmkent/cattrack
 
 before_script:
 - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sh -e /etc/init.d/xvfb start; fi
