@@ -13,7 +13,7 @@ let totalAmountValidator = (expected: number) => {
         for (let split of g.controls['splits'].value){
             total += +split.amount;
         }
-        if (total !== expected) {
+        if (total !== Number(expected)) {
             return {'amountTotalIncorrect': true};
         }
         return null;
