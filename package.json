@@ -1,6 +1,6 @@
 {
   "name": "cattrack-client",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Categorised spending tracker.",
   "repository": {
     "url": "https://github.com/dmkent/cattrack-client"
