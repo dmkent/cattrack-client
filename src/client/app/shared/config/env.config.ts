@@ -3,6 +3,7 @@
 export interface EnvConfig {
   API?: string;
   ENV?: string;
+  VERSION?: string | number;
 }
 
 export const Config: EnvConfig = JSON.parse('<%= ENV_CONFIG %>');

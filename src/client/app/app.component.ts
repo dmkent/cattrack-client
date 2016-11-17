@@ -1,4 +1,7 @@
 import { Component, ViewContainerRef } from '@angular/core';
+
+import { Config } from './shared/index';
+
 @Component({
   selector: 'sd-app',
   template: `
@@ -29,10 +32,14 @@ import { Component, ViewContainerRef } from '@angular/core';
     <h1>{{title}}</h1>
     <router-outlet></router-outlet>
     </div>
+    <div>
+    <p class="pull-right text-muted"><small>Client version: {{ version }}</small></p>
+    </div>
   `
 })
 export class AppComponent {
   title = 'CatTrack';
+  version = Config.VERSION;
 
   private viewContainerRef: ViewContainerRef;
 
