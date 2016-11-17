@@ -104,7 +104,7 @@ export class CategoriserComponent implements OnInit {
 
     save(): void {
       this.transactionService.updateTransaction(this.transaction,
-                                                this.catForm.value.splits)
+                                                this.catForm.get('splits').value)
                              .then((t) => {
                                  this.childModal.hide();
                                  this.onSave.emit();
